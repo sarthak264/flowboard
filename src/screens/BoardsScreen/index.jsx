@@ -31,13 +31,17 @@ const BoardsScreen = () => {
       <BoardTopBar openModal={() => setShowModal(true)} />
       {showModal && <CreateBoardModal closeModal={() => setShowModal(false)} />}
       {/* <NoBoards /> */}
-      <Stack mt={5} px={3}>
-        <Grid container spacing={4}>
-          {boards.map((board) => (
-            <BoardCard key={board.id} {...board} />
-          ))}
-        </Grid>
-      </Stack>
+      {!boards.length ? (
+        <NoBoards />
+      ) : (
+        <Stack mt={5} px={3}>
+          <Grid container spacing={4}>
+            {boards.map((board) => (
+              <BoardCard key={board.id} {...board} />
+            ))}
+          </Grid>
+        </Stack>
+      )}
     </>
   );
 };

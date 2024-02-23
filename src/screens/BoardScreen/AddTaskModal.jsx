@@ -9,7 +9,7 @@ import {
 import ModalHeader from '../../components/layout/ModalHeader';
 import { useState } from 'react';
 
-const AddTaskModal = ({ tabName, onClose, addTask, loading }) => {
+const AddTaskModal = ({ tabName, onClose, addTask }) => {
   const [text, setText] = useState('');
   return (
     <Dialog open fullWidth maxWidth='xs' onClose={onClose}>
@@ -25,7 +25,7 @@ const AddTaskModal = ({ tabName, onClose, addTask, loading }) => {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
-          <Button variant='contained' onClick={() => addTask(text)} disabled={loading}>
+          <Button variant='contained' onClick={() => addTask(text)}>
             Add Task
           </Button>
         </Stack>

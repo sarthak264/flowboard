@@ -8,13 +8,16 @@ import {
   doc,
   getDoc,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { db } from '../firebase';
 import useStore from '../store';
+import { useNavigate } from 'react-router-dom';
 
 const useApp = () => {
-  const { setBoards, addBoard } = useStore();
+  const { boards, setBoards, addBoard, setToasterMsg } = useStore();
+  const navigate = useNavigate();
 
   const {
     currentUser: { uid },
@@ -35,8 +38,20 @@ const useApp = () => {
         id: doc.id,
       });
     } catch (err) {
-      console.log(err);
+      setToasterMsg('Error creating board');
       throw err;
+    }
+  };
+
+  const deleteBoard = async (boardId) => {
+    const docRef = doc(db, `users/${uid}/boards/${boardId}`);
+    try {
+      await deleteDoc(docRef);
+      const tBoards = boards.filter((board) => board.id !== boardId);
+      setBoards(tBoards);
+      navigate('/boards');
+    } catch (err) {
+      setToasterMsg('Error deleting the board');
     }
   };
 
@@ -45,7 +60,8 @@ const useApp = () => {
     try {
       await updateDoc(docRef, { tabs, lastUpdated: serverTimestamp() });
     } catch (err) {
-      console.log(err);
+      setToasterMsg('Error updating board');
+      throw err;
     }
   };
 
@@ -57,7 +73,8 @@ const useApp = () => {
         return docSnapShot.data();
       } else return null;
     } catch (err) {
-      console.log(err);
+      setToasterMsg('Error fetching board');
+      throw err;
     }
   };
 
@@ -73,14 +90,13 @@ const useApp = () => {
       console.log(boards);
       setBoards(boards);
     } catch (err) {
-      console.log(err);
-      throw err;
+      setToasterMsg('Error fetching boards');
     } finally {
       if (setLoading) setLoading(false);
     }
   };
 
-  return { createBoard, fetchBoard, fetchBoards, updateBoardData };
+  return { createBoard, deleteBoard, fetchBoard, fetchBoards, updateBoardData };
 };
 
 export default useApp;

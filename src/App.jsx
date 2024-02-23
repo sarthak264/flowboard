@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import AuthScreen from './screens/AuthScreen';
 import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
@@ -46,6 +46,7 @@ function App() {
             path='/boards/:boardId'
             element={<PrivateOnlyRoute Component={BoardScreen} />}
           />
+          <Route path='*' element={<Navigate to='/' replace />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

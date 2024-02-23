@@ -3,8 +3,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import { colors } from '../../theme';
+import { memo } from 'react';
 
-const BoardTopBar = ({ name, lastUpdated, color }) => {
+const BoardTopBar = ({ name, lastUpdated, color, deleteBoard }) => {
   const navigate = useNavigate();
   return (
     <AppBar
@@ -20,7 +21,7 @@ const BoardTopBar = ({ name, lastUpdated, color }) => {
         </Stack>
         <Stack direction='row' alignItems='center' gap={2}>
           <Typography variant='body2'>Last updated: {lastUpdated}</Typography>
-          <IconButton>
+          <IconButton onClick={deleteBoard}>
             <DeleteIcon />
           </IconButton>
         </Stack>
@@ -29,4 +30,4 @@ const BoardTopBar = ({ name, lastUpdated, color }) => {
   );
 };
 
-export default BoardTopBar;
+export default memo(BoardTopBar);
