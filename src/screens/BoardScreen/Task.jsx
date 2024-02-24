@@ -2,7 +2,7 @@ import { Stack, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Draggable } from 'react-beautiful-dnd';
 
-const Task = ({ text, id, removeTask, index }) => {
+const Task = ({ text, id, removeTask, index, onClick }) => {
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
@@ -20,6 +20,7 @@ const Task = ({ text, id, removeTask, index }) => {
             borderColor='#777980'
             bgcolor='#45474e'
             width='100%'
+            {...(!!onClick ? { onClick: onClick } : {})}
           >
             {text}
           </Typography>

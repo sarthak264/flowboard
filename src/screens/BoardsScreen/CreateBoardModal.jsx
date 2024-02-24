@@ -11,6 +11,7 @@ import ModalHeader from '../../components/layout/ModalHeader';
 import { colors } from '../../theme';
 import { useState } from 'react';
 import useApp from '../../hooks/useApp';
+import useStore from '../../store';
 
 const CreateBoardModal = ({ closeModal }) => {
   const [name, setName] = useState('');
@@ -18,11 +19,18 @@ const CreateBoardModal = ({ closeModal }) => {
   const [loading, setLoading] = useState(false);
 
   const { createBoard } = useApp();
+  const { setToasterMsg } = useStore();
 
   const handleCreate = async () => {
+    const tName = name.trim();
+    if (!tName) return setToasterMsg('You need to enter board name');
+    if (!/^[a-zA-Z0-9\s]{1,20}$/.test(tName))
+      return setToasterMsg(
+        'Board name cannot contain special characters and should not be more than 20 characters'
+      );
     try {
       setLoading(true);
-      await createBoard({ name, color });
+      await createBoard({ name: tName, color });
       closeModal();
     } catch (err) {
       console.log(err);

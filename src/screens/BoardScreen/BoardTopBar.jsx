@@ -20,7 +20,9 @@ const BoardTopBar = ({ name, lastUpdated, color, deleteBoard }) => {
           <Typography variant='h6'>{name}</Typography>
         </Stack>
         <Stack direction='row' alignItems='center' gap={2}>
-          <Typography variant='body2'>Last updated: {lastUpdated}</Typography>
+          <Typography variant='body2' display={{ xs: 'none', sm: 'block' }}>
+            Last updated: {lastUpdated}
+          </Typography>
           <IconButton onClick={deleteBoard}>
             <DeleteIcon />
           </IconButton>
